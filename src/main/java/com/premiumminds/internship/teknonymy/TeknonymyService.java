@@ -2,6 +2,8 @@ package com.premiumminds.internship.teknonymy;
 
 import com.premiumminds.internship.teknonymy.Person;
 
+import java.lang.StringBuilder;
+
 class TeknonymyService implements ITeknonymyService {
 
 	/**
@@ -11,28 +13,28 @@ class TeknonymyService implements ITeknonymyService {
 	 * @return String which is the Teknonymy Name 
 	*/
 	public String getTeknonymy(Person person) {
-		String teknonymy = "";
+		StringBuilder teknonymy = new StringBuilder();
 		if (person.getChildren() == null) {
-			return teknonymy;
+			return teknonymy.toString();
 		}
 		Object[] oldestDescendant = getOldestDescendant(person, 0);
 		Person oldestPerson = (Person) oldestDescendant[0];
 		Integer level = (Integer) oldestDescendant[1];
 		while (level > 1) {
 			if (level >= 3) {
-				teknonymy += "great-";
+				teknonymy.append("great-");
 			} else if (level == 2) {
-				teknonymy += "grand";
+				teknonymy.append("grand");
 			}
 			level -= 1;
 		}
 		if (person.getSex() == 'M') {
-			teknonymy += "father ";
+			teknonymy.append("father ");
 		} else {
-			teknonymy += "mother ";
+			teknonymy.append("mother ");
 		}
-		teknonymy += "of " + oldestPerson.getName();
-		return teknonymy;
+		teknonymy.append("of ").append(oldestPerson.getName());
+		return teknonymy.toString();
 	};
 
 	/**
